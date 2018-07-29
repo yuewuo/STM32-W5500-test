@@ -72,7 +72,8 @@ void GPIO_Configuration(void)
   GPIO_InitStructure.GPIO_Pin = WIZ_INT;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
+  //GPIO_Init(GPIOC, &GPIO_InitStructure);
+  GPIO_Init(GPIOA, &GPIO_InitStructure);  // wy@180729改成了A6引脚
   
 }
 /*
@@ -183,12 +184,12 @@ void NVIC_Configuration(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-	//Usart1 NVIC ����
+	//Usart1 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//��ռ���ȼ�
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//�����ȼ�
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQͨ��ʹ��
-	NVIC_Init(&NVIC_InitStructure);	//����ָ���Ĳ�����ʼ��VIC�Ĵ���
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//抢占优先级
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
+	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
 
   
   /* Set the Vector Table base location at 0x08002000 -> USE AIP*/ 

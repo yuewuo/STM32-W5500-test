@@ -1,12 +1,12 @@
 /**
   ******************************************************************************
-  * @file    GPIO/IOToggle/stm32f10x_it.c 
+  * @file    Project/STM32F10x_StdPeriph_Template/stm32f10x_it.c 
   * @author  MCD Application Team
   * @version V3.5.0
   * @date    08-April-2011
   * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and peripherals
-  *          interrupt service routine.
+  *          This file provides template for all exceptions handler and 
+  *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
   *
@@ -23,12 +23,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
-
-/** @addtogroup STM32F10x_StdPeriph_Examples
-  * @{
-  */
-
-/** @addtogroup GPIO_IOToggle
+#include "mcu_init.h"
+/** @addtogroup STM32F10x_StdPeriph_Template
   * @{
   */
 
@@ -123,12 +119,42 @@ void DebugMon_Handler(void)
 }
 
 /**
-  * @brief  This function handles PendSV_Handler exception.
+  * @brief  This function handles PendSVC exception.
   * @param  None
   * @retval None
   */
 void PendSV_Handler(void)
 {
+}
+/*******************************************************************************
+* Function Name  : TIM2_IRQHandler
+* Description    : This function handles TIM2 global interrupt request.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+
+void TIM2_IRQHandler(void)
+{
+	if(TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
+	{
+		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+		Timer2_ISR();	
+	}
+        //printf("1");
+}
+
+/*******************************************************************************
+* Function Name  : USART1_IRQHandler
+* Description    : This function handles USART1 global interrupt request.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+
+void USART1_IRQHandler(void)
+{
+//   USART1_SEG_ISR();
 }
 
 /**
@@ -136,9 +162,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
-{
-}
+//void SysTick_Handler(void)
+//{
+//}
 
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */
@@ -158,10 +184,7 @@ void SysTick_Handler(void)
 
 /**
   * @}
-  */
+  */ 
 
-/**
-  * @}
-  */
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

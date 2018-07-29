@@ -380,6 +380,9 @@ void getSIPR(uint8 * addr);
 uint8 getRCR( void );
 void getMR(void);
 void setSn_IR(uint8 s, uint8 val);
+
+extern void setkeepalive(SOCKET s);  // added by wy@180729
+
 /**
  @brief WIZCHIP_OFFSET_INC on IINCHIP_READ/WRITE
  * case1.

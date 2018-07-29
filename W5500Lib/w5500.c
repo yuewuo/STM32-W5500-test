@@ -274,6 +274,14 @@ void setSIPR(
 }
 
 /**
+@brief  W5500心跳检测程序，设置Socket在线时间寄存器Sn_KPALVTR，单位为5s
+*/
+void setkeepalive(SOCKET s)
+{ 
+  IINCHIP_WRITE(Sn_KPALVTR(s),0x02);
+}
+
+/**
 @brief  This function sets up Source IP address.
 */
 void getGAR(uint8 * addr)

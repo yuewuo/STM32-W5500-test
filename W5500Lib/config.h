@@ -82,7 +82,8 @@
 #define PC14				GPIO_Pin_14	//
 #define PC15				GPIO_Pin_15	//
 
-#define WIZ_INT			PC6	// in
+//#define WIZ_INT			PC6	// in
+#define WIZ_INT      PA6  // STM32F103C8T6没有C6引脚，相应地，在
 //Port D
 
 //=================================================
@@ -130,6 +131,7 @@ extern CONFIG_MSG  ConfigMsg, RecvMsg;
 
 #define SOCK_DHCP             0
 #define SOCK_HTTP             1
+#define SOCK_TERMINAL         2  // added by wy@180729
 
 #define AppBackAddress          0x08020000 //from 128K
 #define ConfigAddr		          0x0800FC00

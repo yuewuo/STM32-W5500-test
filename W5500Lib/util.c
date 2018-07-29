@@ -12,25 +12,25 @@
   #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
 
-static u8  fac_us=0;//usÑÓÊ±±¶³ËÊı
-static u16 fac_ms=0;//msÑÓÊ±±¶³ËÊı
+static u8  fac_us=0;//uså»¶æ—¶å€ä¹˜æ•°
+static u16 fac_ms=0;//mså»¶æ—¶å€ä¹˜æ•°
 
-//³õÊ¼»¯ÑÓ³Ùº¯Êı
-//SYSTICKµÄÊ±ÖÓ¹Ì¶¨ÎªHCLKÊ±ÖÓµÄ1/8
-//SYSCLK:ÏµÍ³Ê±ÖÓ
+//åˆå§‹åŒ–å»¶è¿Ÿå‡½æ•°
+//SYSTICKçš„æ—¶é’Ÿå›ºå®šä¸ºHCLKæ—¶é’Ÿçš„1/8
+//SYSCLK:ç³»ç»Ÿæ—¶é’Ÿ
 void Systick_Init (u8 SYSCLK)
 {
-	SysTick->CTRL&=0xfffffffb;//bit2Çå¿Õ,Ñ¡ÔñÍâ²¿Ê±ÖÓ  HCLK/8
+	SysTick->CTRL&=0xfffffffb;//bit2æ¸…ç©º,é€‰æ‹©å¤–éƒ¨æ—¶é’Ÿ  HCLK/8
 	fac_us=SYSCLK/8;		    
 	fac_ms=(u16)fac_us*1000;
 }								    
-//ÑÓÊ±nms
-//×¢ÒânmsµÄ·¶Î§
-//SysTick->LOADÎª24Î»¼Ä´æÆ÷,ËùÒÔ,×î´óÑÓÊ±Îª:
+//å»¶æ—¶nms
+//æ³¨æ„nmsçš„èŒƒå›´
+//SysTick->LOADä¸º24ä½å¯„å­˜å™¨,æ‰€ä»¥,æœ€å¤§å»¶æ—¶ä¸º:
 //nms<=0xffffff*8*1000/SYSCLK
-//SYSCLKµ¥Î»ÎªHz,nmsµ¥Î»Îªms
-//¶Ô72MÌõ¼şÏÂ,time_ms<=1864 
-//µ±ĞèÒªÑÓÊ±sÒÔÉÏÊ±£¬Çëµ÷ÓÃDelay_sº¯Êı
+//SYSCLKå•ä½ä¸ºHz,nmså•ä½ä¸ºms
+//å¯¹72Mæ¡ä»¶ä¸‹,time_ms<=1864 
+//å½“éœ€è¦å»¶æ—¶sä»¥ä¸Šæ—¶ï¼Œè¯·è°ƒç”¨Delay_så‡½æ•°
 void Delay_s( uint32 time_s )
 {
   for(;time_s>0;time_s--)
@@ -39,32 +39,32 @@ void Delay_s( uint32 time_s )
 void Delay_ms( uint32 time_ms )
 {	 		  	  
 	u32 temp;		   
-	SysTick->LOAD=(u32)time_ms*fac_ms;//Ê±¼ä¼ÓÔØ(SysTick->LOADÎª24bit)
-	SysTick->VAL =0x00;           //Çå¿Õ¼ÆÊıÆ÷
-	SysTick->CTRL=0x01 ;          //¿ªÊ¼µ¹Êı  
+	SysTick->LOAD=(u32)time_ms*fac_ms;//æ—¶é—´åŠ è½½(SysTick->LOADä¸º24bit)
+	SysTick->VAL =0x00;           //æ¸…ç©ºè®¡æ•°å™¨
+	SysTick->CTRL=0x01 ;          //å¼€å§‹å€’æ•°  
 	do
 	{
 		temp=SysTick->CTRL;
 	}
-	while(temp&0x01&&!(temp&(1<<16)));//µÈ´ıÊ±¼äµ½´ï   
-	SysTick->CTRL=0x00;       //¹Ø±Õ¼ÆÊıÆ÷
-	SysTick->VAL =0X00;       //Çå¿Õ¼ÆÊıÆ÷	  	    
+	while(temp&0x01&&!(temp&(1<<16)));//ç­‰å¾…æ—¶é—´åˆ°è¾¾   
+	SysTick->CTRL=0x00;       //å…³é—­è®¡æ•°å™¨
+	SysTick->VAL =0X00;       //æ¸…ç©ºè®¡æ•°å™¨	  	    
 }   
-//ÑÓÊ±nus
-//nusÎªÒªÑÓÊ±µÄusÊı.		    								   
+//å»¶æ—¶nus
+//nusä¸ºè¦å»¶æ—¶çš„usæ•°.		    								   
 void Delay_us( uint32 time_us )
 {		
 	u32 temp;	    	 
-	SysTick->LOAD=time_us*fac_us; //Ê±¼ä¼ÓÔØ	  		 
-	SysTick->VAL=0x00;        //Çå¿Õ¼ÆÊıÆ÷
-	SysTick->CTRL=0x01 ;      //¿ªÊ¼µ¹Êı 	 
+	SysTick->LOAD=time_us*fac_us; //æ—¶é—´åŠ è½½	  		 
+	SysTick->VAL=0x00;        //æ¸…ç©ºè®¡æ•°å™¨
+	SysTick->CTRL=0x01 ;      //å¼€å§‹å€’æ•° 	 
 	do
 	{
 		temp=SysTick->CTRL;
 	}
-	while(temp&0x01&&!(temp&(1<<16)));//µÈ´ıÊ±¼äµ½´ï   
-	SysTick->CTRL=0x00;       //¹Ø±Õ¼ÆÊıÆ÷
-	SysTick->VAL =0X00;       //Çå¿Õ¼ÆÊıÆ÷	 
+	while(temp&0x01&&!(temp&(1<<16)));//ç­‰å¾…æ—¶é—´åˆ°è¾¾   
+	SysTick->CTRL=0x00;       //å…³é—­è®¡æ•°å™¨
+	SysTick->VAL =0X00;       //æ¸…ç©ºè®¡æ•°å™¨	 
 }
 
 //int putchar(int ch)

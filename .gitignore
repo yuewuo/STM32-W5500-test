@@ -14,3 +14,5 @@ MDK-ARM/STM32v11test/STM32v11test.htm
 MDK-ARM/STM32v11test/STM32v11test.lnp
 MDK-ARM/STM32v11test/STM32v11test.map
 MDK-ARM/STM32v11test/STM32v11test.sct
+*.iex
+*.scvd

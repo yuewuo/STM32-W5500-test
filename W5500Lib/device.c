@@ -106,8 +106,8 @@ void set_network(void)
 
 void set_default(void)
 {  
-  uint8 mac[6]={0x00,0x08,0xdc,0x11,0x11,0x15};
-  uint8 lip[4]={192,168,1,88};
+  uint8 mac[6]={0xa0,0x88,0x69,0x97,0xe7,0x45};
+  uint8 lip[4]={192,168,1,188};
   uint8 sub[4]={255,255,255,0};
   uint8 gw[4]={192,168,1,1};
   uint8 dns[4]={8,8,8,8};

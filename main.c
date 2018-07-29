@@ -38,6 +38,9 @@ extern uint8 txsize[];
 extern uint8 rxsize[];
 
 uint8 buffer[2048];/*定义一个2KB的缓存*/
+uint16 local_port=22;
+uint16 len;
+uint8 ip[4];
 
 int main(void)
 {
@@ -57,9 +60,47 @@ int main(void)
   set_default(); 	
   init_dhcp_client();
 
+  setkeepalive(SOCK_TERMINAL);  // 打开keepalive功能
+  printf("TCP Server Port: %d\r\n",local_port);
+  printf("W5500 Init Complete!\r\n");
+
   while(1)
   {
+    Delay_ms(500);
 		DHCP_run();
+    getSIPR(ip);
+    printf("IP : %d.%d.%d.%d\r\n", ip[0],ip[1],ip[2],ip[3]);  // 疯狂打印IP
+    switch(getSn_SR(SOCK_TERMINAL)) {
+      case SOCK_INIT:  // Socket处于初始化完成(打开)状态
+        printf("SOCK_INIT\n");
+        listen(SOCK_TERMINAL);  // 监听刚刚打开的本地端口，等待客户端连接
+        break;
+      case SOCK_ESTABLISHED:  // Socket处于连接建立状态
+        printf("SOCK_ESTABLISHED\n");
+        if(getSn_IR(SOCK_TERMINAL) & Sn_IR_CON)	{
+          setSn_IR(SOCK_TERMINAL, Sn_IR_CON);				// Sn_IR的CON位置1，通知W5500连接已建立
+        }
+        len=getSn_RX_RSR(SOCK_TERMINAL);  // 读取W5500空闲接收缓存寄存器的值并赋给len，Sn_RX_RSR表示接收缓存中已接收和保存的数据大小
+        if(len>0) {
+          recv(SOCK_TERMINAL,buffer,len);  // W5500接收来自客户端的数据，并通过SPI发送给MCU
+          printf("%s\r\n",buffer);  // 串口打印接收到的数据
+          send(SOCK_TERMINAL,buffer,len);  // 接收到数据后再回给客户端，完成数据回环
+        }
+        break;
+      case SOCK_CLOSE_WAIT:  // Socket处于等待关闭状态
+        printf("SOCK_CLOSE_WAIT\n");
+        close(SOCK_TERMINAL);  // 关闭Socket0
+        break;
+      case SOCK_CLOSED:
+        printf("SOCK_CLOSED\n");
+        socket(SOCK_TERMINAL, Sn_MR_TCP, local_port, Sn_MR_ND);		// 打开Socket0，并配置为TCP无延时模式，打开一个本地端口
+        break;
+      case SOCK_LISTEN:
+        printf("SOCK_LISTEN\n");
+        break;
+      default:
+        printf("unknown state\n");
+    }
 	}
 }
 
