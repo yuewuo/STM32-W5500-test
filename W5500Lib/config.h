@@ -32,10 +32,10 @@
 #define USART1_RX		                    PA10	// in 
 //#define USART2_TX		                  PA2	// out
 //#define USART2_RX		                  PA3	// in 
-#define LED0                            PA0
-#define LED1                            PA1
-#define LED2                            PA2
-#define LED3                            PA3
+// #define LED0                            PA0
+// #define LED1                            PA1
+// #define LED2                            PA2
+// #define LED3                            PA3
 //Port B
 
 #define PB0                             GPIO_Pin_0

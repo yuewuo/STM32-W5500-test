@@ -29,18 +29,19 @@ void GPIO_Configuration(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-  GPIO_SetBits(GPIOA, WIZ_SCS);//SPI1
+  // GPIO_SetBits(GPIOA, WIZ_SCS);//SPI1   ??? ä¸åº”è¯¥æ˜¯GPIOBå˜›ï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+  GPIO_SetBits(GPIOB, WIZ_SCS);//SPI1  // wy@180728
 	
   // Port A output
-  GPIO_InitStructure.GPIO_Pin =LED0 | LED1 | LED2 | LED3; 
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
+  // GPIO_InitStructure.GPIO_Pin =LED0 | LED1 | LED2 | LED3; 
+  // GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  // GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  // GPIO_Init(GPIOA, &GPIO_InitStructure);
   
-  GPIO_ResetBits(GPIOA, LED0);
-  GPIO_ResetBits(GPIOA, LED1);
-  GPIO_SetBits(GPIOA, LED2); // led off
-  GPIO_SetBits(GPIOA, LED3); // led off
+  // GPIO_ResetBits(GPIOA, LED0);
+  // GPIO_ResetBits(GPIOA, LED1);
+  // GPIO_SetBits(GPIOA, LED2); // led off
+  // GPIO_SetBits(GPIOA, LED3); // led off
  
   // Configure the GPIO ports( USART1 Transmit and Receive Lines)
   // Configure the USART1_Tx as Alternate function Push-Pull 
@@ -64,7 +65,7 @@ void GPIO_Configuration(void)
   GPIO_InitStructure.GPIO_Pin = WIZ_RESET ; 
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
+  GPIO_Init(GPIOB, &GPIO_InitStructure);  // wy@180728  æŠŠ GPIOC æ”¹æˆäº† GPIOB  ä½œè€…åœ¨å¹²ä»€ä¹ˆ.....æˆ‘æ€Žä¹ˆçœ‹ä¸æ‡‚
 	GPIO_SetBits(GPIOB, WIZ_RESET);//SPI2
   
   // Port C input
@@ -182,12 +183,12 @@ void NVIC_Configuration(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-	//Usart1 NVIC ÅäÖÃ
+	//Usart1 NVIC ï¿½ï¿½ï¿½ï¿½
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//ÇÀÕ¼ÓÅÏÈ¼¶
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//×ÓÓÅÏÈ¼¶
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQÍ¨µÀÊ¹ÄÜ
-	NVIC_Init(&NVIC_InitStructure);	//¸ù¾ÝÖ¸¶¨µÄ²ÎÊý³õÊ¼»¯VIC¼Ä´æÆ÷
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQÍ¨ï¿½ï¿½Ê¹ï¿½ï¿½
+	NVIC_Init(&NVIC_InitStructure);	//ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½VICï¿½Ä´ï¿½ï¿½ï¿½
 
   
   /* Set the Vector Table base location at 0x08002000 -> USE AIP*/ 
