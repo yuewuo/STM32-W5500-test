@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F10X_MD</Define>
               <Undefine></Undefine>
-              <IncludePath>../;../Drivers/STM32F10x_StdPeriph_Driver/Inc;../Drivers/CMSIS/CM3/DeviceSupport/ST/STM32F10x/</IncludePath>
+              <IncludePath>../;../Drivers/STM32F10x_StdPeriph_Driver/Inc;../Drivers/CMSIS/CM3/DeviceSupport/ST/STM32F10x/;../W5500Lib/</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -531,6 +531,9 @@
               <FilePath>..\Drivers\CMSIS\CM3\DeviceSupport\ST\STM32F10x\system_stm32f10x.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>W5500</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
