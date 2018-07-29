@@ -23,104 +23,49 @@
 #include "stm32f10x.h"
 #include "system_stm32f10x.h"
 
-/** @addtogroup STM32F10x_StdPeriph_Examples
-  * @{
-  */
+#include "mcu_init.h"
+#include "config.h"
+#include "device.h"
+#include "spi2.h"
+#include "socket.h"
+#include "w5500.h"
+#include "util.h"
+#include "dhcp.h"
+#include "string.h"
+#include <stdio.h>
 
-/** @addtogroup GPIO_IOToggle
-  * @{
-  */
+extern uint8 txsize[];
+extern uint8 rxsize[];
 
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-GPIO_InitTypeDef GPIO_InitStructure;
+uint8 buffer[2048];/*定义一个2KB的缓存*/
 
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
-
-/**
-  * @brief  Main program.
-  * @param  None
-  * @retval None
-  */
 int main(void)
 {
-  /*!< At this stage the microcontroller clock setting is already configured, 
-       this is done through SystemInit() function which is called from startup
-       file (startup_stm32f10x_xx.s) before to branch to application main.
-       To reconfigure the default setting of SystemInit() function, refer to
-       system_stm32f10x.c file
-     */     
-       
-  /* GPIOD Periph clock enable */
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+  RCC_Configuration(); /* 配置单片机系统时钟*/
+  NVIC_Configuration();/* 配置嵌套中断向量*/
+	Systick_Init(72);/* 初始化Systick工作时钟*/
+  GPIO_Configuration();/* 配置GPIO*/ 
+	Timer_Configuration();/*定时器初始化*/
+  USART1_Init(); /*初始化串口通信:115200@8-n-1*/
+  // at24c16_init();/*初始化eeprom*/
+  printf("W5500 EVB initialization over.\r\n");
+  
+  Reset_W5500();/*硬重启W5500*/
+  WIZ_SPI_Init();/*初始化SPI接口*/
+  printf("W5500 initialized!\r\n");  
+  
+  set_default(); 	
+  init_dhcp_client();
 
-  /* Configure PD0 and PD2 in output pushpull mode */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_2;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-  /* To achieve GPIO toggling maximum frequency, the following  sequence is mandatory. 
-     You can monitor PD0 or PD2 on the scope to measure the output signal. 
-     If you need to fine tune this frequency, you can add more GPIO set/reset 
-     cycles to minimize more the infinite loop timing.
-     This code needs to be compiled with high speed optimization option.  */
-  while (1)
+  while(1)
   {
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-
-    /* Set PD0 and PD2 */
-    GPIOD->BSRR = 0x00000005;
-    /* Reset PD0 and PD2 */
-    GPIOD->BRR  = 0x00000005;
-  }
+		DHCP_run();
+	}
 }
+
+
+
+
 
 #ifdef  USE_FULL_ASSERT
 
