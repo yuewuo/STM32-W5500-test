@@ -1,0 +1,16 @@
+
+*.dbgconf
+MDK-ARM/RTE/_STM32v11test/RTE_Components.h
+*.37754
+*.uvoptx
+*.crf
+*.d
+*.o
+*.dep
+MDK-ARM/STM32v11test/STM32v11test.axf
+MDK-ARM/STM32v11test/STM32v11test.build_log.htm
+MDK-ARM/STM32v11test/STM32v11test.hex
+MDK-ARM/STM32v11test/STM32v11test.htm
+MDK-ARM/STM32v11test/STM32v11test.lnp
+MDK-ARM/STM32v11test/STM32v11test.map
+MDK-ARM/STM32v11test/STM32v11test.sct
